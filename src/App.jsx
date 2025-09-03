@@ -1,9 +1,19 @@
-import React from 'react'
+import React from "react";
+import { Routes, Route } from "react-router-dom";
+import SignIn from "./pages/signin";
+import Dashboard from "./pages/signin/dashboard";
 
-const App = () => {
+export default function App() {
   return (
-    <div>App</div>
-  )
-}
+    <Routes>
+      {/* Default route goes to SignIn */}
+      <Route path="/" element={<SignIn />} />
 
-export default App
+      {/* Explicit SignIn route */}
+      <Route path="/signin" element={<SignIn />} />
+      <Route path="/dashboard" element={<Dashboard />} />
+
+      {/* Add more routes here */}
+    </Routes>
+  );
+}
