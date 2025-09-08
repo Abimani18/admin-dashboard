@@ -56,7 +56,7 @@
   cursor: pointer;
   font-size: 15px;
   font-weight: 500;
-  background-color: #a57fe7;
+  background-color: white;
   transition: background 0.3s ease, color 0.3s ease;
 }
 
@@ -139,19 +139,7 @@
   font-weight: bold;
 }
 
-.create-btn {
-  background: #2563eb;
-  color: #fff;
-  padding: 8px 14px;
-  border-radius: 6px;
-  border: none;
-  cursor: pointer;
-  font-size: 14px;
-}
 
-.create-btn:hover {
-  background: #1d4ed8;
-}
 
 /* Job Card Layout */
 
@@ -195,24 +183,16 @@
   justify-content: center;
 }
 
-.job-logo {
-  width: 40px;
-  height: 40px;
-  background: #d1d5db;
-  border-radius: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 18px;
-  font-weight: bold;
-}
+
 
 /* Middle Section - Info */
 .job-info {
   display: grid;
-  grid-template-columns: 150px 150px 120px 120px 100px 100px 120px;
+  grid-template-columns: 150px 120px 180px 120px 100px 100px 120px 120px;
   flex: 1;
+  align-items: center;
   gap: 10px;
+  text-decoration: none !important;
 }
 
 .header-row .job-info {
@@ -223,6 +203,9 @@
 .job-info span {
   font-size: 14px;
   color: #111827;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 /* Right side - Actions */
@@ -240,23 +223,7 @@
   transition: 0.2s;
 }
 
-.action-btn.edit {
-  background: #10b981;
-  color: #fff;
-}
 
-.action-btn.edit:hover {
-  background: #059669;
-}
-
-.action-btn.delete {
-  background: #ef4444;
-  color: #fff;
-}
-
-.action-btn.delete:hover {
-  background: #dc2626;
-}
 
 
 /* ===== Modal Overlay ===== */
@@ -274,11 +241,11 @@
 }
 
 /* ===== Modal Box ===== */
-.modal {
+.card {
   background: #fff;
   padding: 25px 30px;
   border-radius: 12px;
-  width: 400px;
+  width: 600px;
   max-width: 90%;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
   animation: popIn 0.3s ease-in-out;
@@ -302,6 +269,8 @@
   font-weight: 600;
   color: #1e293b;
   text-align: center;
+  display: flex;
+  justify-content: center;
 }
 
 /* ===== Modal Form ===== */
@@ -341,18 +310,13 @@
   background: #1d4ed8;
 }
 
-.close-btn {
-  margin-top: 12px;
-  background: #e5e7eb;
-  border: none;
-  padding: 8px;
-  width: 100%;
-  border-radius: 6px;
-  font-size: 14px;
-  cursor: pointer;
-  transition: background 0.2s ease;
-}
 
 .close-btn:hover {
   background: #d1d5db;
+}
+
+
+.close{
+  display: flex;
+  justify-content: end;
 }
