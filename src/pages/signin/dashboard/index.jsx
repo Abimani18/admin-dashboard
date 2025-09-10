@@ -224,7 +224,6 @@ const Dashboard = () => {
 
       {/* Main Section */}
       <div className="main">
-        {/* Top Navbar */}
         <header className="topbar">
           <button
             className="toggle-btn"
