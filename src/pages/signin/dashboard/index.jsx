@@ -13,6 +13,7 @@ import { jobContext } from "../../../App";
 import { FaSquareXmark } from "react-icons/fa6";
 import { Link } from "react-router-dom";
 import { GrFormNextLink, GrFormPreviousLink } from "react-icons/gr";
+import { jobApi } from "../../../utils/axios";
 
 const Dashboard = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
@@ -91,7 +92,7 @@ const Dashboard = () => {
   // Get Job by Id
   const handleEditClick = async (id) => {
     try {
-      const res = await axios.get(`http://localhost:3333/api/job/${id}`);
+      const res = await jobApi.get(`/${id}`);
       setEditJob(res.data.job);
       setEditModalOpen(true);
     } catch (error) {
@@ -110,8 +111,8 @@ const Dashboard = () => {
   const handleEditSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.put(
-        `http://localhost:3333/api/job/${editJob._id}`,
+      const res = await jobApi.put(
+        `/${editJob._id}`,
         editJob
       );
       setJobList(res.data.jobs);
@@ -152,8 +153,8 @@ const Dashboard = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post(
-        "http://localhost:3333/api/job/create",
+      const res = await jobApi.post(
+        "/create",
         newJob
       );
       setJobList(res.data.jobs);
@@ -188,7 +189,7 @@ const Dashboard = () => {
   const handleDelete = async (id) => {
     try {
       if (window.confirm("Are you sure delete job?")) {
-        const res = await axios.delete(`http://localhost:3333/api/job/${id}`);
+        const res = await jobApi.delete(`/${id}`);
         setDeleteJob((job) => job.filter((item) => item._id !== id));
         window.location.reload();
       } else {
@@ -362,7 +363,6 @@ const Dashboard = () => {
       {modalOpen && (
         <div className="modal-overlay">
           <div className="card shadow-lg">
-            {error && <div className="error-message">{error}</div>}
             <div className="close">
               <FaSquareXmark
                 size={20}

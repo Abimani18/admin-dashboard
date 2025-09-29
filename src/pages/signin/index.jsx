@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import "./style.css";
 import axios from "axios";
 import { jobContext } from "../../App";
+import { userApi } from "../../utils/axios";
 
 export default function SignIn() {
   const navigate = useNavigate();
@@ -35,7 +36,7 @@ const handleChange = (e) =>{
     e.preventDefault();
     setError("")
     try {
-       const res = await axios.post("http://localhost:3333/api/user/login",newUser)
+       const res = await userApi.post("/login",newUser)
        if(res.data.token){
          localStorage.setItem("token", res.data.token);
           setSuccess(res.data.message)
@@ -140,7 +141,7 @@ const handleChange = (e) =>{
         <div className="signin-footer">
           Don’t have an account?{" "}
           <a
-            href="/signup"
+            href=""
             onClick={(e) => {
               e.preventDefault();
               navigate("/signup");

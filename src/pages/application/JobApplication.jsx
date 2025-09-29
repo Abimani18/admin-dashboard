@@ -80,6 +80,7 @@ import { useParams } from "react-router-dom";
 import { jobContext } from "../../App";
 import axios from "axios";
 import { FaSquareXmark } from "react-icons/fa6";
+import { jobApi } from "../../utils/axios";
 
 const JobApplication = () => {
   const { appliedJob, setAppliedJob,error,setError,success,setSuccess } = useContext(jobContext);
@@ -120,8 +121,8 @@ const handleSuccess = (message) => {
 
   const fetchData = async () => {
     try {
-      const res = await axios.get(
-        `http://localhost:3333/api/job/applications/job/${id}`
+      const res = await jobApi.get(
+        `/applications/job/${id}`
       );
       setApplication(res.data.applications);
     } catch (error) {
@@ -131,7 +132,7 @@ const handleSuccess = (message) => {
 
   const handleEditClick = async(id) => {
     try {
-        const res = await axios.get(`http://localhost:3333/api/job/applications/${id}`)
+        const res = await jobApi.get(`/applications/${id}`)
         setEditApplication(res.data.application)
         setCardOpen(true);
     } catch (error) {
@@ -146,7 +147,7 @@ const handleSuccess = (message) => {
    const handleEditSubmit = async(e) => {
     e.preventDefault();
     try {
-       const res = await axios.put(`http://localhost:3333/api/job/applications/${editApplication._id}`,editApplication);
+       const res = await jobApi.put(`/applications/${editApplication._id}`,editApplication);
        handleSuccess(res.data.message);
        setAppliedJob(res.data.applicatios);
         setEditApplication({ name: "", email: "", phone: "" }); 
@@ -162,7 +163,7 @@ const handleSuccess = (message) => {
   const handleDelete = async (id) => {
   try {
     if (window.confirm("Are you sure you want to delete this application?")) {
-      await axios.delete(`http://localhost:3333/api/job/applications/${id}`);
+      await jobApi.delete(`/applications/${id}`);
 
       // Remove the deleted item from state
       setDeleteApplication((prev) =>

@@ -4,6 +4,7 @@ import SignIn from "./pages/signin";
 import Dashboard from "./pages/signin/dashboard";
 import axios from "axios";
 import JobApplication from "./pages/application/JobApplication";
+import { jobApi } from "./utils/axios";
 
 export const jobContext = createContext();
 export default function App() {
@@ -18,7 +19,7 @@ export default function App() {
   },[])
   const jobData = async()=>{
     try {
-      const res = await axios.get("http://localhost:3333/api/job/allJobs")
+      const res = await jobApi.get("/allJobs")
       setJobList(res.data.jobs)
     } catch (error) {
       console.log(error.message);
@@ -26,7 +27,7 @@ export default function App() {
   }
   const applyJobData = async()=>{
     try {
-      const res = await axios.get("http://localhost:3333/api/job/applications")
+      const res = await jobApi.get("/applications")
       setAppliedJob(res.data.applications)
     } catch (error) {
       console.log(error.message);
