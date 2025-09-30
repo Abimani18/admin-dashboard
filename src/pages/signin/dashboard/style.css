@@ -1,24 +1,265 @@
- .dashboard {
+/* ===== Dashboard ===== */
+.dashboard {
   display: flex;
   height: 100vh;
-  font-family: Arial, sans-serif;
-  background: #f8f9fc;
+}
+
+/* ===== Sidebar ===== */
+.sidebar {
+  width: 240px;
+  background: rgb(4, 4, 57);
+  color: black;
+  display: flex;
+  flex-direction: column;
+  padding: 20px 15px;
+  position: fixed;      /* 🔥 stays fixed */
+  top: 0; 
+  bottom: 0; 
+  left: 0;
+  border-radius: 0px;
+  box-shadow: 4px 0 20px rgba(0, 0, 0, 0.15);
+  z-index: 2000;        /* 🔥 above everything */
+  transform: translateX(-100%);  /* 🔥 hidden by default */
+  transition: transform 0.3s ease;
+}
+
+.sidebar .logo {
+  font-size: 22px;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 30px;
+  color: #eef2ff;
+  margin-top: 50px;
+}
+
+.sidebar .menu li {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  list-style: none;
+  padding: 12px 14px;
+  margin: 8px 0;
+  border-radius: 12px;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  color: white;
+}
+
+.sidebar .menu li:hover{
+  background: rgba(255, 255, 255, 0.2);
+  transform: scale(1.05);
+  color: whitesmoke;
 }
 
 
-.sidebar {
-  width: 220px;
-  background: #baa0e5;
+.sidebar .menu li.bg-primary {
+  background: rgba(255, 255, 255, 0.2);
+  transform: scale(1.05);
   color: white;
+}
+
+/* ===== Main ===== */
+.main {
+  flex: 1;
+  margin-left: 0;   /* 🔥 remove margin-left */
   display: flex;
-  padding-top: 20px;
   flex-direction: column;
-  transition: transform 0.3s ease-in-out; 
-  position: fixed;
+  background: #f9fafb;
+  transition: none; /* no shifting */
+}
+
+.topbar {
+  height: 65px;
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(10px);
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 15px 25px;
+  border-bottom: 1px solid #e5e7eb;
+  position: sticky;
   top: 0;
-  left: 0;
-  bottom: 0;
-  z-index: 1000; 
+  z-index: 900;
+}
+
+.toggle-btn {
+  position: fixed;   /* 🔥 stays always visible */
+  top: 10px;         /* adjust to match topbar height */
+  left: 15px;        /* place it outside sidebar */
+  z-index: 3000;     /* above sidebar */  
+  background: rgb(32, 117, 237);
+  border: none;
+  padding: 9px;
+  font-size: 15px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: 0.3s;
+  color: white;
+}
+
+.toggle-btn:hover {
+  background:rgb(20, 97, 205) ;
+}
+
+.actions button {
+  background: rgb(32, 117, 237);
+  border: none;
+  font-size: 18px;
+  margin-left: 12px;
+  cursor: pointer;
+  padding: 5px 8px;
+  border-radius: 50%;
+  transition: 0.3s;
+  color: white;
+}
+.actions button:hover {
+  background:rgb(20, 97, 205) ;
+}
+
+/* ===== Content ===== */
+.content {
+  padding: 25px;
+  overflow-y: auto;
+}
+
+.content-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+}
+.content-header h2 {
+  font-size: 22px;
+  font-weight: 700;
+  color: #111827;
+}
+.btn.btn-primary {
+  background: rgb(32, 117, 237);
+  color: white;
+  padding: 8px 16px;
+  border-radius: 8px;
+  border: none;
+  transition: 0.3s;
+}
+.btn.btn-primary:hover {
+  background: rgb(20, 97, 205);
+}
+
+/* ===== Job Cards ===== */
+.job-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: white;
+  border-radius: 12px;
+  padding: 18px 22px;
+  margin-bottom: 18px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+}
+.job-card:not(.header-row):hover {
+  transform: translateY(-4px) scale(1.02);
+  background: linear-gradient(135deg, #ffffff, #f9f9ff);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+.job-card.header-row {
+  background: #eef2ff;
+  font-weight: 600;
+  color: #374151;
+  box-shadow: none;
+}
+
+/* Job Info Grid */
+.job-info {
+  display: grid;
+  grid-template-columns: 120px 150px 160px 120px 90px 90px 100px 100px;
+  flex: 1;
+  align-items: center;
+  gap: 10px;
+}
+.job-info span {
+  font-size: 14px;
+  font-weight: 500;
+  color: #374151;
+  text-align: center;
+}
+
+.job-actions {
+  display: flex;
+  gap: 10px;
+}
+.btn-success {
+  background: #10b981;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  transition: 0.2s;
+}
+.btn-success:hover {
+  background: #059669;
+}
+.btn-danger {
+  background: #ef4444;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  transition: 0.2s;
+}
+.btn-danger:hover {
+  background: #dc2626;
+}
+
+/* Overlay full screen */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+  padding: 20px; /* so modal doesn’t touch screen edges */
+}
+
+/* Modal Card */
+.card {
+  background: #fff;
+  padding: 25px 30px;
+  border-radius: 14px;
+  width: 600px;
+  max-width: 95%;
+  max-height: 90vh;       /* 🔥 fits screen height */
+  overflow-y: auto;       /* 🔥 scroll inside if too long */
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+  animation: popIn 0.3s ease;
+}
+
+@keyframes popIn {
+  from { transform: scale(0.9); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+.card input, .card select, .card textarea {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  margin-bottom: 12px;
+  font-size: 14px;
+  transition: all 0.2s;
+}
+.card input:focus, .card select:focus, .card textarea:focus {
+  border-color: #6366f1;
+  box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.25);
+  outline: none;
+}
+.card button {
+  margin-top: 5px;
 }
 
 .sidebar.open {
@@ -29,275 +270,36 @@
   transform: translateX(-100%); 
 }
 
-.sidebar .logo {
-  font-size: 20px;
-  font-weight: 600;
-  margin-bottom: 30px;
-  text-align: center;
-  color: #000000;
-}
-
-.sidebar .menu {
-  padding: 0;
-  margin: 0;
-}
-
-.sidebar .menu li {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  list-style: none;
-  color: #000000;
-  padding: 12px 16px;
-  margin: 8px 10px;
-  border-radius: 8px;
-  cursor: pointer;
-  font-size: 15px;
-  font-weight: 500;
-  background-color: white;
-  transition: background 0.3s ease, color 0.3s ease;
-}
-
-.sidebar .menu li:hover {
-  background: #2563eb;
-  color: white;
-}
-
-
-.main {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  background: #f3f4f6;
-  margin-left: 220px; 
-  transition: margin-left 0.3s ease;
-}
-
 .sidebar.hidden ~ .main {
   margin-left: 0;
 }
 
-@media (max-width: 768px) {
-  .main {
-    margin-left: 0;
-  }
+.content a {
+  text-decoration: none;
+  color: inherit;
 }
 
-.topbar {
-  height: 60px;
-  background: linear-gradient(135deg, #ffffff, #be9afd);
+.content a:hover {
+  text-decoration: none;
+  color: #4f46e5;
+}
+
+.header-actions {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  padding: 0 20px;
-  border-bottom: 1px solid #e5e7eb;
-}
-
-.toggle-btn {
-  background: #f3f4f6;
-  border: none;
-  font-size: 20px;
-  cursor: pointer;
-  border-radius: 8px;
-  padding: 6px 10px;
-  transition: all 0.3s ease;
-  position: relative;
-  z-index: 1100; 
-}
-
-
-.actions button {
-  background: none;
-  border: none;
-  font-size: 18px;
-  margin-left: 15px;
-  cursor: pointer;
-  color: #374151;
-}
-
-.content {
-  padding: 20px;
-  overflow-y: auto;
-}
-
-.content-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
-}
-
-.content-header h2 {
-  font-size: 20px;
-  font-weight: bold;
-}
-
-.job-card {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  background: white;
-  border-radius: 10px;
-  padding: 16px 24px;
-  margin-bottom: 18px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
-  cursor: pointer;
-}
-
-.job-card:not(.header-row):hover {
-  transform: translateY(-6px) scale(1.02); 
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-  background: linear-gradient(135deg, #ffffff, #f7f3ff);
-}
-
-.job-card.header-row {
-  background: #f3f4f6;
-  font-weight: 600;
-  color: #374151;
-  margin-bottom: 25px;
-  cursor: default;
-  transform: none !important;
-  box-shadow: none !important;
-}
-
-
-.job-left {
-  flex: 0 0 60px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-
-
-.job-info {
-  display: grid;
-  grid-template-columns: 150px 120px 180px 120px 100px 100px 120px 120px;
-  flex: 1;
-  align-items: center;
-  gap: 10px;
-  text-decoration: none !important;
-}
-
-.header-row .job-info {
-  font-size: 14px;
-  color: #374151;
-}
-
-.job-info span {
-  font-size: 14px;
-  color: #111827;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.job-actions {
-  display: flex;
-  gap: 10px;
-}
-
-.action-btn {
-  padding: 6px 12px;
-  font-size: 13px;
-  border-radius: 6px;
-  cursor: pointer;
-  border: none;
-  transition: 0.2s;
-}
-
-
-
-
-.modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.6);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 2000;
-}
-
-.card {
-  background: #fff;
-  padding: 25px 30px;
-  border-radius: 12px;
-  width: 600px;
-  max-width: 90%;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
-  animation: popIn 0.3s ease-in-out;
-}
-
-@keyframes popIn {
-  0% {
-    transform: scale(0.9);
-    opacity: 0;
-  }
-  100% {
-    transform: scale(1);
-    opacity: 1;
-  }
-}
-
-.modal h3 {
-  margin-bottom: 20px;
-  font-size: 20px;
-  font-weight: 600;
-  color: #1e293b;
-  text-align: center;
-  display: flex;
-  justify-content: center;
-}
-
-.modal form {
-  display: flex;
-  flex-direction: column;
   gap: 12px;
 }
 
-.modal form input {
-  padding: 10px 12px;
+.category-dropdown {
+  padding: 8px 12px;
+  border-radius: 8px;
   border: 1px solid #d1d5db;
-  border-radius: 6px;
+  background: white;
   font-size: 14px;
-  outline: none;
-  transition: border 0.2s ease;
-}
-
-.modal form input:focus {
-  border-color: #2563eb;
-  box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.2);
-}
-
-.modal form button {
-  background: #2563eb;
-  color: #fff;
-  border: none;
-  padding: 10px;
-  border-radius: 6px;
-  font-size: 15px;
   cursor: pointer;
-  transition: background 0.2s ease;
+  transition: 0.2s;
 }
 
-.modal form button:hover {
-  background: #1d4ed8;
+.category-dropdown:hover {
+  border-color: #6366f1;
 }
-
-
-.close-btn:hover {
-  background: #d1d5db;
-}
-
-
-.close{
-  display: flex;
-  justify-content: end;
-} 
-
-

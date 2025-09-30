@@ -20,6 +20,10 @@ const Dashboard = () => {
   const [activeTab, setActiveTab] = useState(
     localStorage.getItem("activeTab") || "posted"
   );
+
+    const [category, setCategory] = useState("All"); // 🔥 category state
+    const [searchTerm, setSearchTerm] = useState(""); // 🔥 new search filter
+
   const {
     jobList,
     setJobList,
@@ -67,6 +71,51 @@ const Dashboard = () => {
   });
   const [jobDescription, setJobDescription] = useState(false);
   const [editJobDescription, setEditJobDescription] = useState(false);
+  const [profileOpen, setProfileOpen] = useState(false); // 🔥 new state
+  const [profileImage, setProfileImage] = useState("");
+
+  // Remove profile image
+const handleRemoveImage = () => {
+  setProfile((prev) => ({ ...prev, image: "" }));
+};
+
+  // Add this near your other states
+const [profile, setProfile] = useState(() => {
+  return JSON.parse(localStorage.getItem("profile")) || {
+    username: "",
+    email: "",
+    role: "",
+    about: "",
+    image: "",
+  };
+});
+
+// Handle input changes
+const handleProfileChange = (e) => {
+  const { name, value } = e.target;
+  setProfile((prev) => ({ ...prev, [name]: value }));
+};
+
+// Handle image upload
+const handleImageChange = (e) => {
+  const file = e.target.files[0];
+  if (file) {
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setProfile((prev) => ({ ...prev, image: reader.result }));
+    };
+    reader.readAsDataURL(file);
+  }
+};
+
+// Save profile to localStorage
+const handleProfileUpdate = () => {
+  localStorage.setItem("profile", JSON.stringify(profile));
+  alert("Profile updated successfully ✅");
+  setProfileOpen(false); // close modal
+};
+
+
 
   const handleTabChange = (tab) => {
     setActiveTab(tab);
@@ -203,6 +252,12 @@ const Dashboard = () => {
 
   return (
     <div className="dashboard">
+       <button
+            className="toggle-btn"
+            onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+          >
+            {isSidebarOpen ? <FiChevronLeft /> : <FiChevronRight />}
+          </button>
       {/* Sidebar */}
       <aside className={`sidebar ${isSidebarOpen ? "open" : "hidden"}`}>
         <div className="logo">Admin Dashboard</div>
@@ -226,13 +281,6 @@ const Dashboard = () => {
       {/* Main Section */}
       <div className="main">
         <header className="topbar">
-          <button
-            className="toggle-btn"
-            onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-          >
-            {isSidebarOpen ? <FiChevronLeft /> : <FiChevronRight />}
-          </button>
-
           <div className="actions">
             <button>
               <FiBell />
@@ -240,23 +288,125 @@ const Dashboard = () => {
             <button>
               <FiSettings />
             </button>
-            <button>
+            <button onClick={() => setProfileOpen(true)}> {/* 🔥 open modal */}
               <FiUser />
             </button>
           </div>
         </header>
+{profileOpen && (
+  <div className="modal-overlay">
+    <div className="card shadow-lg">
+      <div className="close">
+        <FaSquareXmark
+          size={20}
+          style={{ color: "red", cursor: "pointer" }}
+          onClick={() => setProfileOpen(false)}
+        />
+      </div>
+      <h3 className="d-flex justify-content-center mb-3">My Profile</h3>
+
+      {/* Profile Picture */}
+      <div className="d-flex flex-column align-items-center mb-3">
+        <img
+          src={profile.image || "https://via.placeholder.com/100"}
+          alt="Profile"
+          className="rounded-circle mb-2"
+          style={{ width: "100px", height: "100px", objectFit: "cover" }}
+        />
+        <input type="file" accept="image/*" onChange={handleImageChange} />
+
+        {/* 🔥 Remove Button */}
+        {profile.image && (
+          <button
+            type="button"
+            className="btn btn-danger btn-sm mt-2"
+            onClick={() =>
+              setProfile((prev) => ({ ...prev, image: "" }))
+            }
+          >
+            Remove Picture
+          </button>
+        )}
+      </div>
+
+      {/* Profile Form */}
+      <form>
+        <input
+          type="text"
+          name="username"
+          placeholder="UserName"
+          value={profile.username}
+          onChange={handleProfileChange}
+        />
+        <input
+          type="email"
+          name="email"
+          placeholder="Email"
+          value={profile.email}
+          onChange={handleProfileChange}
+        />
+        <input
+          type="text"
+          name="role"
+          placeholder="Role"
+          value={profile.role}
+          onChange={handleProfileChange}
+        />
+        <input
+          type="text"
+          name="about"
+          placeholder="About"
+          value={profile.about}
+          onChange={handleProfileChange}
+        />
+
+        <button
+          type="button"
+          className="btn btn-primary w-100 mt-2"
+          onClick={handleProfileUpdate}
+        >
+          Update Profile
+        </button>
+      </form>
+    </div>
+  </div>
+)}
 
         {/* Content */}
         <div className="content">
           <div className="content-header">
             <h2>{activeTab === "posted" ? "Job Posted" : "Job Applied"}</h2>
             {activeTab === "posted" && (
+              <div className="header-actions">
+                {/* 🔥 Category Dropdown */}
+                <select
+                  className="category-dropdown"
+                  value={category}
+                  onChange={(e) => setCategory(e.target.value)}
+                >
+                  <option value="All">All Categories</option>
+                  <option value="Full Time">Full Time</option>
+                  <option value="Part Time">Part Time</option>
+                  <option value="Remote">Remote</option>
+                  <option value="WFH">WFH</option>
+                </select>
+
+                {/* 🔥 Job Name Search */}
+                <input
+                  type="text"
+                  className="search-input"
+                  placeholder="Search by Job Name..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                />
+
               <button
                 className="btn btn-primary"
                 onClick={() => setModalOpen(true)}
               >
                 + Create Job
               </button>
+              </div>
             )}
           </div>
 
@@ -278,8 +428,16 @@ const Dashboard = () => {
                 <div className="job-actions">Actions</div>
               </div>
 
-              {/* Job Cards (Sorted latest first) */}
+              {/* 🔥 Filter Jobs by Category */}
               {[...jobList]
+                .filter((item) =>
+                  category === "All" ? true : item.jobtype === category
+                )
+                .filter((item) =>
+                searchTerm === "" 
+                 ? true 
+                : item.title.toLowerCase().includes(searchTerm.toLowerCase())
+                 )
                 .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
                 .map((item, index) => (
                   <div className="job-card" key={index}>
