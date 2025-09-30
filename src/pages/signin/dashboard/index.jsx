@@ -16,7 +16,7 @@ import { GrFormNextLink, GrFormPreviousLink } from "react-icons/gr";
 import { jobApi } from "../../../utils/axios";
 
 const Dashboard = () => {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [activeTab, setActiveTab] = useState(
     localStorage.getItem("activeTab") || "posted"
   );
@@ -115,12 +115,11 @@ const handleProfileUpdate = () => {
   setProfileOpen(false); // close modal
 };
 
-
-
   const handleTabChange = (tab) => {
-    setActiveTab(tab);
-    localStorage.setItem("activeTab", tab);
-  };
+  setActiveTab(tab);
+  localStorage.setItem("activeTab", tab);
+  setIsSidebarOpen(false);   // 🔥 close sidebar after tab change
+};
 
   // Error handler
   const handleError = (error) => {
